@@ -5,7 +5,7 @@ import * as stream from 'stream';
 import { SocksClient, SocksClientOptions } from 'socks';
 import * as vscode from 'vscode';
 import * as ssh2 from 'ssh2';
-import type { ParsedKey } from 'ssh2-streams';
+import type { ParsedKey } from 'ssh2';
 import Log from './common/logger';
 import SSHDestination from './ssh/sshDestination';
 import SSHConnection, { SSHTunnelConfig } from './ssh/sshConnection';
@@ -142,7 +142,7 @@ export class RemoteSSHResolver implements vscode.RemoteAuthorityResolver, vscode
                             strictVendor: false,
                             agentForward: proxyAgentForward,
                             agent: proxyAgent,
-                            authHandler: (arg0, arg1, arg2) => (proxyAuthHandler(arg0, arg1, arg2), undefined)
+                            authHandler: ((arg0: any, arg1: any, arg2: any) => (proxyAuthHandler(arg0, arg1, arg2), undefined)) as any
                         });
                         this.proxyConnections.push(proxyConnection);
 
@@ -182,7 +182,7 @@ export class RemoteSSHResolver implements vscode.RemoteAuthorityResolver, vscode
                     strictVendor: false,
                     agentForward,
                     agent,
-                    authHandler: (arg0, arg1, arg2) => (sshAuthHandler(arg0, arg1, arg2), undefined),
+                    authHandler: ((arg0: any, arg1: any, arg2: any) => (sshAuthHandler(arg0, arg1, arg2), undefined)) as any,
                 });
                 await this.sshConnection.connect();
 
@@ -327,7 +327,7 @@ export class RemoteSSHResolver implements vscode.RemoteAuthorityResolver, vscode
         let passwordRetryCount = PASSWORD_RETRY_COUNT;
         let keyboardRetryCount = PASSWORD_RETRY_COUNT;
         identityKeys = identityKeys.slice();
-        return async (methodsLeft: string[] | null, _partialSuccess: boolean | null, callback: (nextAuth: ssh2.AuthHandlerResult) => void) => {
+        return async (methodsLeft: string[] | null, _partialSuccess: boolean | null, callback: (nextAuth: ssh2.AnyAuthMethod | false) => void) => {
             if (methodsLeft === null) {
                 this.logger.info(`Trying no-auth authentication`);
 

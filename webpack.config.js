@@ -39,7 +39,11 @@ const config = {
 		}),
 		new webpack.IgnorePlugin({
 			resourceRegExp: /cpu-features/,
-		})
+		}),
+		new webpack.NormalModuleReplacementPlugin(
+			/core-js-pure\/internals\/engine-user-agent/,
+			require.resolve('./shims/engine-user-agent.js')
+		)
 	]
 }
 

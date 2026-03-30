@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import type { ParsedKey } from 'ssh2-streams';
+import type { ParsedKey } from 'ssh2';
 import * as ssh2 from 'ssh2';
 import { untildify, exists as fileExists } from '../common/files';
 import Log from '../common/logger';
@@ -78,7 +78,7 @@ export async function gatherIdentityFiles(identityFiles: string[], sshAgentSock:
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(publicKeys || []);
+                    resolve((publicKeys || []) as ParsedKey[]);
                 }
             });
         });

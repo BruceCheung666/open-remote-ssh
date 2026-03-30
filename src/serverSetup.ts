@@ -150,6 +150,7 @@ export async function installCodeServer(conn: SSHConnection, serverDownloadUrlTe
 
     const exitCode = parseInt(resultMap.exitCode, 10);
     if (exitCode !== 0) {
+        logger.error('Server install stdout:', commandOutput.stdout);
         throw new ServerInstallError(`Couldn't install vscode server on remote server, install script returned non-zero exit status`);
     }
 
@@ -333,6 +334,9 @@ if [[ ! -f $SERVER_SCRIPT ]]; then
 
     pushd $SERVER_DIR > /dev/null
 
+    # Remove possibly corrupted download from previous attempt
+    rm -f vscode-server.tar.gz
+
     if [[ ! -z $(which wget) ]]; then
         wget --tries=3 --timeout=10 --continue --no-verbose -O vscode-server.tar.gz $SERVER_DOWNLOAD_URL
     elif [[ ! -z $(which curl) ]]; then
@@ -410,6 +414,8 @@ if [[ -f $SERVER_LOGFILE ]]; then
 
     if [[ -z $LISTENING_ON ]]; then
         echo "Error server did not start successfully"
+        echo "Server log contents:"
+        cat $SERVER_LOGFILE
         print_install_results_and_exit 1
     fi
 else

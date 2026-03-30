@@ -347,8 +347,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^16.11.0",
-		"@types/ssh2": "^0.5.52",
-		"@types/ssh2-streams": "0.1.12",
+		"@types/ssh2": "^1.15.0",
 		"@types/webpack": "^5.28.0",
 		"@typescript-eslint/eslint-plugin": "^5.19.0",
 		"@typescript-eslint/parser": "^5.19.0",
@@ -364,6 +363,6 @@
 		"simple-socks": "git+https://github.com/jeanp413/simple-socks#main",
 		"socks": "^2.5.0",
 		"@jeanp413/ssh-config": "^4.3.1",
-		"ssh2": "git+https://github.com/jeanp413/ssh2#master"
+		"ssh2": "^1.16.0"
 	}
 }
